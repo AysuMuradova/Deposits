@@ -60,9 +60,7 @@ CREATE INDEX dep_deadli ON deposits(deadline);
 ------------------------------------------------------
                                            
                          
-/*1.Ümumi bir package yaradın. 
-Bu package-də qeyd edilən cədvəllərin hər birinə insert edən prosedurlar yazın və 
-insertlərinizi bu prosedurlar vasitəsilə icra edin.*/
+
 
 --Creating specifications
 CREATE OR REPLACE PACKAGE insert_data IS   
@@ -268,10 +266,7 @@ SELECT * FROM currency_d;
 
 
 
-/*2.Müştərinin qoyduğu məbləğə və term-ə əsasən ona faiz təyin edən
-və bu faizi ekrana çıxaran prosedur qurun. 
-Həmin faizləri yaratdığınız məhsul cədvəlinə əsasən təyin edin. 
-Yəni məhsul cədvəlində müddət valuta və məbləğ aralığına görə faizlər saxlanılsın.*/
+
 
 
 --Creating Function
@@ -310,10 +305,7 @@ END;
 
 
 
-/*3. 2 eyniadlı prosedur yaradın  OVERLOADING-dən istifade edin.Prosedurlardan birinə əgər müqavilə 
-id-si ötürülürsə onda ekrana müştərinin sonda alacağı faiz məbləği ekrana çıxsın. 
-Digər prosedurda isə parameter ötürülməsin və avtomatik olaraq cari gün üzrə müqavilə 
-açan müştərilərin alacağı faiz məbləği cədvəldə saxlanılsın*/
+
 
 
 ALTER TABLE deposits ADD interest_amount NUMBER; -- cedvelde saxlanilma ucun sutun
@@ -364,12 +356,6 @@ BEGIN
  interest_amount.interest_amount;
 END; 
 
-/*4.Bir funksiya yaradın və funksiya ekrana müştəri gəlib pulunu götürmək
-istədikdə ona nə qədər pul ödənəcək onu hesablasın. Əgər müştəri müqavilənin 
-vaxtı bitdikdən sonra gəlibsə o zaman öz pulunu və alacağı bütün faiz məbləği ekrana çıxmalıdır.
-Əgər vaxtı bitməmiş gəlibsə o zaman öz pulunu və faizlə alacağı məbləğin 1 faizi ekrana çıxmalıdır. 
-Bazada funksiyaya ötürülən argumentə uyğun data yoxdursa 
-ekrana error qaytarın və həmin datanı exception_data cədvəlinə insert edin.*/
 
 
 
@@ -443,16 +429,6 @@ BEGIN
   dbms_output.put_line( calculate_payment(v_dep_id => 12, v_date_of_take_amount =>to_date('30.09.2019','dd.mm.yyyy')));
   END;
 
-
-/*5.Depozitlərin prolongasiyasını yəni uzadılmasını təyin edən prosedur qurun və bu proseduru 
-job vasitəsilə hər gün axşam saat 10-da işə salın. Prolongasiya prosesinin işləmə məntiqi belədir-
-Müştəri əgər müqavilənin bitmə günündə müştəri gəlib məbləği götürmürsə o zaman müştərinin əsas 
-məbləği alacağı faizlə cəmlənərək və müqavilənin başlama və bitmə vaxtı  update edilsin. 
-Məsələn-1000 azn məbləğ qoymuşdur müştəri və bu müqavilənin başlama vaxtı 24.01.2023-dür və 
-bitmə vaxtı 24.06.2023-dür. Və müqavilənin faizi 5 faizdir.
-Müştəri 25.06.2023 tarixində məbləği götürmürsə o zaman depozit prolongasiya olacaq
-yəni başlama tarixi 24.06.2023 və bitmə vaxtı 24.01.2024 olacaq. 
-Məbləğ isə 1000 deyil də 1000+1000*5/100=1050 olacaq.*/
 
 SELECT * FROM deposits FOR UPDATE
 
